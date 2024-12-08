@@ -1,0 +1,19 @@
+﻿@model MiFrikimundo.Models.Movie
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h3>Agregar Peliculas</h3>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="Title">Titulo</label>
+        <input type="text" class="form-control" asp-for="Title" required/>
+    </div>
+    <div class="form-group">
+        <label for="Director">Director</label>
+        <input type="text" class="form-control" asp-for="Director" required/>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Agregar</button>
+</form>
