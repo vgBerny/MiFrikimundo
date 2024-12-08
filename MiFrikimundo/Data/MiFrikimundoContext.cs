@@ -8,5 +8,6 @@ namespace MiFrikimundo.Data
         public MiFrikimundoContext(DbContextOptions<MiFrikimundoContext> options) : base(options) { }
 
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Book> Books { get; set; }
     }
 }

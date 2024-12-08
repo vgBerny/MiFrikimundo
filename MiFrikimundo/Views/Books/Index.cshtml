@@ -1,0 +1,37 @@
+﻿@model List<MiFrikimundo.Models.Book>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div>
+    <h3>Libros</h3>
+    <form>
+        <div class="button-rigth">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/Books/Create'">Agregar</button>
+        </div>
+    </form>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Saga</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var book in Model)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.Author</td>
+                <td>@book.Saga</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@book.Id">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@book.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
