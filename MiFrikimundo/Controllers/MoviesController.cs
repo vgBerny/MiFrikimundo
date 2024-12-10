@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MiFrikimundo.Data;
 using MiFrikimundo.Models;
@@ -16,17 +17,19 @@ namespace MiFrikimundo.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var movie = await _Context.Movies.ToListAsync();
+            var movie = await _Context.Movies.Include(g => g.Gender).ToListAsync();
+
             return View(movie);
         }
 
         public IActionResult Create()
         {
+            ViewData["Genders"] = new SelectList(_Context.Genders, "Id", "Name");
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id, Title, Director")]Movie movie)
+        public async Task<IActionResult> Create([Bind("Id, Title, Director, GenderId")]Movie movie)
         {
             if(ModelState.IsValid)
             {
@@ -39,12 +42,12 @@ namespace MiFrikimundo.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+            ViewData["Genders"] = new SelectList(_Context.Genders, "Id", "Name");
             var movie = await _Context.Movies.FirstOrDefaultAsync(x => x.Id == id);
             return View(movie);
         }
-
         [HttpPost]
-        public async Task<IActionResult> Edit(int Id, [Bind("Id, Title, Director")] Movie movie)
+        public async Task<IActionResult> Edit(int Id, [Bind("Id, Title, Director, GenderId")] Movie movie)
         {
             if(ModelState.IsValid)
             {
@@ -72,6 +75,7 @@ namespace MiFrikimundo.Controllers
             }
             return RedirectToAction("Index");
         }
+
     }
 }
 
