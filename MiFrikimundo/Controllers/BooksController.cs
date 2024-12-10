@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MiFrikimundo.Data;
 using MiFrikimundo.Models;
@@ -16,17 +17,18 @@ namespace MiFrikimundo.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var book = await _Context.Books.ToListAsync();
+            var book = await _Context.Books.Include(g => g.Gender).ToListAsync();
             return View(book);
         }
 
         public IActionResult Create()
         {
+            ViewData["Genders"] = new SelectList(_Context.Genders, "Id", "Name");
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id, Title, Author, Saga")]Book book)
+        public async Task<IActionResult> Create([Bind("Id, Title, Author, Saga, GenderId")]Book book)
         {
             if(ModelState.IsValid)
             {
@@ -39,12 +41,13 @@ namespace MiFrikimundo.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+            ViewData["Genders"] = new SelectList(_Context.Genders, "Id", "Name");
             var book = await _Context.Books.FirstOrDefaultAsync(x => x.Id == id);
             return View(book);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int Id, [Bind("Id, Title, Author, Saga")] Book book)
+        public async Task<IActionResult> Edit(int Id, [Bind("Id, Title, Author, Saga, GenderId")] Book book)
         {
             if(ModelState.IsValid)
             {

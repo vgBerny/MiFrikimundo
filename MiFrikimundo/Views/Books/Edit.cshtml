@@ -19,5 +19,9 @@
         <label for="Saga">Saga Literaria</label>
         <input type="text" class="form-control" asp-for="Saga" />
     </div>
+    <div class="form-group">
+        <label for="GenderId">Genero</label>
+        <select asp-for="GenderId" asp-items="ViewBag.Genders" class="form-control"></select>
+    </div>
     <button type="submit" class="btn btn-primary mt-2">Editar</button>
 </form>

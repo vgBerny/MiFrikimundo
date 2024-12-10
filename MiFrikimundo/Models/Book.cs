@@ -1,4 +1,6 @@
-﻿namespace MiFrikimundo.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MiFrikimundo.Models
 {
     public class Book
     {
@@ -6,5 +8,9 @@
         public string Title { get; set; } = string.Empty;
         public string? Author { get; set; }
         public string? Saga { get; set; }
+
+        public int? GenderId { get; set; }
+        [ForeignKey("GenderId")]
+        public Gender? Gender { get; set; }
     }
 }

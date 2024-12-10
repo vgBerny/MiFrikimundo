@@ -18,6 +18,7 @@
             <th>Título</th>
             <th>Autor</th>
             <th>Saga</th>
+            <th>Genero</th>
         </tr>
     </thead>
     <tbody>
@@ -27,6 +28,7 @@
                 <td>@book.Title</td>
                 <td>@book.Author</td>
                 <td>@book.Saga</td>
+                <td>@book.Gender?.Name</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@book.Id">Editar</a>
                     <a asp-action="Delete" asp-route-id="@book.Id">Eliminar</a>
