@@ -30,8 +30,15 @@ body {
   text-align: start;
 }
 
-.button-rigth{
-    display:flex;
-    justify-content: flex-end;
+.custom-bg {
+    background-color: #3b3b37;
+    border-color: #6c757d;
 }
+
+    .custom-bg:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+
+
 
