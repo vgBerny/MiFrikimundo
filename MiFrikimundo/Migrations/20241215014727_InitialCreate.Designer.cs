@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MiFrikimundo.Migrations
 {
     [DbContext(typeof(MiFrikimundoContext))]
-    [Migration("20241210034551_One to many, books")]
-    partial class Onetomanybooks
+    [Migration("20241215014727_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,9 @@ namespace MiFrikimundo.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("GenderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
                         .HasColumnType("int");
 
                     b.Property<string>("Saga")
@@ -93,6 +96,9 @@ namespace MiFrikimundo.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("GenderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")

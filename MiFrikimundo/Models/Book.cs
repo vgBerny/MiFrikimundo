@@ -8,6 +8,8 @@ namespace MiFrikimundo.Models
         public string Title { get; set; } = string.Empty;
         public string? Author { get; set; }
         public string? Saga { get; set; }
+        public int Rating { get; set; }
+
 
         public int? GenderId { get; set; }
         [ForeignKey("GenderId")]

@@ -35,6 +35,9 @@ namespace MiFrikimundo.Migrations
                     b.Property<int?>("GenderId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
                     b.Property<string>("Saga")
                         .HasColumnType("nvarchar(max)");
 
@@ -90,6 +93,9 @@ namespace MiFrikimundo.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("GenderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")

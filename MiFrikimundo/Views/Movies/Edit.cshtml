@@ -17,7 +17,19 @@
     </div>
     <div class="form-group">
         <label for="GenderId">Genero</label>
-        <select asp-for="GenderId" asp-items="ViewBag.Genders" class="form-control"></select>
+        <select asp-for="GenderId" asp-items="ViewBag.Genders" class="form-control">
+        </select>
     </div>
+    <div class="form-group">
+        <label for="Rating">Calificacion</label>
+        <select asp-for="Rating" name="Rating" class="form-control">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </div>
+
     <button type="submit" class="btn btn-primary mt-2">Editar</button>
 </form>

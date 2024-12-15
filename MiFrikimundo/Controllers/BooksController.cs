@@ -15,10 +15,14 @@ namespace MiFrikimundo.Controllers
             _Context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var book = await _Context.Books.Include(g => g.Gender).ToListAsync();
-            return View(book);
+            var books = _Context.Books.Include(g => g.Gender).AsQueryable();
+            if(!string.IsNullOrEmpty(searchString) )
+            {
+                books = books.Where(b => b.Title.Contains(searchString)); 
+            }
+            return View(await books.ToListAsync());
         }
 
         public IActionResult Create()
@@ -28,7 +32,7 @@ namespace MiFrikimundo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id, Title, Author, Saga, GenderId")]Book book)
+        public async Task<IActionResult> Create([Bind("Id, Title, Author, Saga, Rating, GenderId")]Book book)
         {
             if(ModelState.IsValid)
             {
@@ -47,7 +51,7 @@ namespace MiFrikimundo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int Id, [Bind("Id, Title, Author, Saga, GenderId")] Book book)
+        public async Task<IActionResult> Edit(int Id, [Bind("Id, Title, Author, Saga, Rating, GenderId")] Book book)
         {
             if(ModelState.IsValid)
             {

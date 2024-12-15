@@ -15,11 +15,14 @@ namespace MiFrikimundo.Controllers
             _Context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var movie = await _Context.Movies.Include(g => g.Gender).ToListAsync();
-
-            return View(movie);
+            var movies = _Context.Movies.Include(g => g.Gender).AsQueryable();
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(b => b.Title.Contains(searchString));
+            }
+            return View(await movies.ToListAsync());
         }
 
         public IActionResult Create()
@@ -29,15 +32,15 @@ namespace MiFrikimundo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id, Title, Director, GenderId")]Movie movie)
+        public async Task<IActionResult> Create([Bind("Id, Title, Director, Rating, GenderId")]Movie movie)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _Context.Movies.Add(movie);
                 await _Context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(movie);
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -47,7 +50,7 @@ namespace MiFrikimundo.Controllers
             return View(movie);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(int Id, [Bind("Id, Title, Director, GenderId")] Movie movie)
+        public async Task<IActionResult> Edit(int Id, [Bind("Id, Title, Director, Rating, GenderId")] Movie movie)
         {
             if(ModelState.IsValid)
             {

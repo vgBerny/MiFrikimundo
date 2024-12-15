@@ -21,7 +21,20 @@
     </div>
     <div class="form-group">
         <label for="GenderId">Genero</label>
-        <select asp-for="GenderId" asp-items="ViewBag.Genders" class="form-control"></select>
+        <select asp-for="GenderId" asp-items="ViewBag.Genders" class="form-control">
+            <option value="" disabled selected>Seleccione un genero</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Rating">Calificacion</label>
+        <select id="Rating" name="Rating" class="form-control">
+            <option value="" disabled selected>Seleccione una calificación</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
     </div>
     <button type="submit" class="btn btn-primary mt-2">Agregar</button>
 </form>
