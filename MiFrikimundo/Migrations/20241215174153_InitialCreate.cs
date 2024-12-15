@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -35,6 +36,7 @@ namespace MiFrikimundo.Migrations
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Saga = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rating = table.Column<int>(type: "int", nullable: false),
+                    Created = table.Column<DateOnly>(type: "date", nullable: true),
                     GenderId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -56,6 +58,7 @@ namespace MiFrikimundo.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Director = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rating = table.Column<int>(type: "int", nullable: false),
+                    Created = table.Column<DateOnly>(type: "date", nullable: true),
                     GenderId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

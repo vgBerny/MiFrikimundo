@@ -32,7 +32,7 @@ namespace MiFrikimundo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id, Title, Director, Rating, GenderId")]Movie movie)
+        public async Task<IActionResult> Create([Bind("Id, Title, Director, Rating, Created, GenderId")]Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -50,7 +50,7 @@ namespace MiFrikimundo.Controllers
             return View(movie);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(int Id, [Bind("Id, Title, Director, Rating, GenderId")] Movie movie)
+        public async Task<IActionResult> Edit(int Id, [Bind("Id, Title, Director, Rating, Created, GenderId")] Movie movie)
         {
             if(ModelState.IsValid)
             {
