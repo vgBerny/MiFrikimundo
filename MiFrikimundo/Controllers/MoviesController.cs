@@ -1,18 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MiFrikimundo.Data;
 using MiFrikimundo.Models;
+using System.IO;
 
 namespace MiFrikimundo.Controllers
 {
     public class MoviesController : Controller
     {
         private readonly MiFrikimundoContext _Context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public MoviesController(MiFrikimundoContext context)
+        public MoviesController(MiFrikimundoContext context, IWebHostEnvironment webHostEnvironment)
         {
             _Context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<IActionResult> Index(string searchString)
@@ -32,10 +36,25 @@ namespace MiFrikimundo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id, Title, Director, Rating, Created, ImageUrl, GenderId")]Movie movie)
+        public async Task<IActionResult> Create([Bind("Id, Title, Director, Rating, Created, ImageFile, ImageUre, GenderId")] Movie movie)
         {
             if (ModelState.IsValid)
             {
+                if (movie.ImageFile != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(movie.ImageFile.FileName);
+                    string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                    Directory.CreateDirectory(uploadPath);
+                    string filePath = Path.Combine(uploadPath, fileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await movie.ImageFile.CopyToAsync(fileStream);
+                    }
+
+                    movie.ImageUrl = "/images/" + fileName;
+                }
+
                 _Context.Movies.Add(movie);
                 await _Context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -50,10 +69,24 @@ namespace MiFrikimundo.Controllers
             return View(movie);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(int Id, [Bind("Id, Title, Director, Rating, Created, ImageUrl, GenderId")] Movie movie)
+        public async Task<IActionResult> Edit(int Id, [Bind("Id, Title, Director, Rating, Created, ImageFile, ImageUrl, GenderId")] Movie movie)
         {
             if(ModelState.IsValid)
             {
+                if (movie.ImageFile != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(movie.ImageFile.FileName);
+                    string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                    Directory.CreateDirectory(uploadPath);
+                    string filePath = Path.Combine(uploadPath, fileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await movie.ImageFile.CopyToAsync(fileStream);
+                    }
+
+                    movie.ImageUrl = "/images/" + fileName;
+                }
                 _Context.Update(movie);
                 await _Context.SaveChangesAsync();
                 return RedirectToAction("Index");

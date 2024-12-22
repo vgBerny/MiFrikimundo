@@ -6,7 +6,7 @@
 
 <h3>Editar Pelicula</h3>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-group">
         <label for="Title">Titulo</label>
         <input type="text" class="form-control" asp-for="Title" required/>
@@ -37,8 +37,8 @@
     </div>
 
     <div class="form-group">
-        <label for="ImageUrl">Imagen</label>
-        <input type="file" class="form-control" asp-for="ImageUrl" accept="image/*" />
+        <label asp-for="ImageFile">Subir Imagen</label>
+        <input asp-for="ImageFile" type="file" class="form-control" />
     </div>
 
     <button type="submit" class="btn btn-primary mt-2">Editar</button>

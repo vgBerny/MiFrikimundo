@@ -9,10 +9,12 @@ namespace MiFrikimundo.Models
         public string? Director { get; set; }
         public int Rating { get; set; }
         public DateOnly? Created { get; set; }
-        public string ImageUrl { get; set; }
-        [NotMapped]
+        public string? ImageUrl { get; set; }
         public int? GenderId { get; set; }
         [ForeignKey("GenderId")]
         public Gender? Gender { get; set; }
+
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
     }
 }
