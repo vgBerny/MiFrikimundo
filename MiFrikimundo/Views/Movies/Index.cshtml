@@ -37,6 +37,7 @@
             <th>Genero</th>
             <th>Rating</th>
             <th>Fecha</th>
+            <th>Imagen</th>
         </tr>
     </thead>
     <tbody>
@@ -49,6 +50,19 @@
                 <td>@movie.Rating</td>
                 <td>@movie.Created</td>
                 <td>
+                    <div class="d-flex justify-content-center">
+                        <img src="@movie.ImageUrl" style="width: 70%" />
+                    </div>
+                </td>
+                <td>
+                    <img src="/images/@movie.ImageUrl" alt="Imagen de @movie.Title" style="width: 100px; height: auto;" />
+                </td>
+                <td>
+                    <div class="d-flex justify-content-center">
+                        <img src="/images/@movie.ImageUrl" style="width: 70%" />
+                    </div>
+                </td>
+                <td>
                     <a asp-action="Edit" asp-route-id="@movie.Id">Editar</a>
                     <a asp-action="Delete" asp-route-id="@movie.Id">Eliminar</a>
                 </td>
@@ -56,3 +70,22 @@
         }
     </tbody>
 </table>
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-6">
+                <div class="d-flex justify-content-center">
+                    <h4>@item.Title</h4>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <img src="/images/@item.ImageUrl" style="width: 70%" />
+                </div>
+                <div class="d-flex justify-content-center">
+                    @item.Director
+                </div>
+            </div>
+        }
+    </div>
+</div>
