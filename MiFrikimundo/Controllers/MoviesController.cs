@@ -19,15 +19,54 @@ namespace MiFrikimundo.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, int? genreId, string sortOrder)
         {
+            // Cargar la lista de géneros para el filtro
+            ViewBag.Genres = new SelectList(await _Context.Genders.ToListAsync(), "Id", "Name");
+
+            // Pasar el orden actual a la vista para resaltarlo en el UI
+            ViewBag.CurrentSort = sortOrder;
+
+            // Base query para las películas
             var movies = _Context.Movies.Include(g => g.Gender).AsQueryable();
+
+            // Filtrar por búsqueda
             if (!string.IsNullOrEmpty(searchString))
             {
                 movies = movies.Where(b => b.Title.Contains(searchString));
             }
+
+            // Filtrar por género
+            if (genreId.HasValue)
+            {
+                movies = movies.Where(b => b.GenderId == genreId.Value);
+            }
+
+            // Ordenar según el criterio seleccionado
+            switch (sortOrder)
+            {
+                case "rating_desc":
+                    movies = movies.OrderByDescending(m => m.Rating);
+                    break;
+                case "rating_asc":
+                    movies = movies.OrderBy(m => m.Rating);
+                    break;
+                case "date_desc":
+                    movies = movies.OrderByDescending(m => m.Created);
+                    break;
+                case "date_asc":
+                    movies = movies.OrderBy(m => m.Created);
+                    break;
+                default:
+                    movies = movies.OrderBy(m => m.Title); // Orden predeterminado (por título)
+                    break;
+            }
+
+            // Retornar la lista filtrada y ordenada a la vista
             return View(await movies.ToListAsync());
         }
+
+
 
         public IActionResult Create()
         {
