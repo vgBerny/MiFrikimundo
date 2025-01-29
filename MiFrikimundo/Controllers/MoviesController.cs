@@ -22,52 +22,58 @@ namespace MiFrikimundo.Controllers
         public async Task<IActionResult> Index(string searchString, int? genreId, string sortOrder)
         {
             // Cargar la lista de géneros para el filtro
-            ViewBag.Genres = new SelectList(await _Context.Genders.ToListAsync(), "Id", "Name");
+            ViewBag.Genres = new SelectList(await GetGenresAsync(), "Id", "Name");
 
             // Pasar el orden actual a la vista para resaltarlo en el UI
             ViewBag.CurrentSort = sortOrder;
 
-            // Base query para las películas
-            var movies = _Context.Movies.Include(g => g.Gender).AsQueryable();
-
-            // Filtrar por búsqueda
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                movies = movies.Where(b => b.Title.Contains(searchString));
-            }
-
-            // Filtrar por género
-            if (genreId.HasValue)
-            {
-                movies = movies.Where(b => b.GenderId == genreId.Value);
-            }
-
-            // Ordenar según el criterio seleccionado
-            switch (sortOrder)
-            {
-                case "rating_desc":
-                    movies = movies.OrderByDescending(m => m.Rating);
-                    break;
-                case "rating_asc":
-                    movies = movies.OrderBy(m => m.Rating);
-                    break;
-                case "date_desc":
-                    movies = movies.OrderByDescending(m => m.Created);
-                    break;
-                case "date_asc":
-                    movies = movies.OrderBy(m => m.Created);
-                    break;
-                default:
-                    movies = movies.OrderBy(m => m.Title); // Orden predeterminado (por título)
-                    break;
-            }
+            // Obtener las películas filtradas y ordenadas
+            var movies = await GetFilteredAndSortedMoviesAsync(searchString, genreId, sortOrder);
 
             // Retornar la lista filtrada y ordenada a la vista
-            return View(await movies.ToListAsync());
+            return View(movies);
         }
+        private async Task<List<Gender>> GetGenresAsync()
+        {
+            return await _Context.Genders.ToListAsync();
+        }
+        private IQueryable<Movie> ApplySearchFilter(IQueryable<Movie> movies, string searchString)
+        {
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(m => m.Title.Contains(searchString));
+            }
+            return movies;
+        }
+        private IQueryable<Movie> ApplyGenreFilter(IQueryable<Movie> movies, int? genreId)
+        {
+            if (genreId.HasValue)
+            {
+                movies = movies.Where(m => m.GenderId == genreId.Value);
+            }
+            return movies;
+        }
+        private IQueryable<Movie> ApplySortOrder(IQueryable<Movie> movies, string sortOrder)
+        {
+            return sortOrder switch
+            {
+                "rating_desc" => movies.OrderByDescending(m => m.Rating),
+                "rating_asc" => movies.OrderBy(m => m.Rating),
+                "date_desc" => movies.OrderByDescending(m => m.Created),
+                "date_asc" => movies.OrderBy(m => m.Created),
+                _ => movies.OrderBy(m => m.Title),
+            };
+        }
+        private async Task<List<Movie>> GetFilteredAndSortedMoviesAsync(string searchString, int? genreId, string sortOrder)
+        {
+            var movies = _Context.Movies.Include(m => m.Gender).AsQueryable();
 
+            movies = ApplySearchFilter(movies, searchString);
+            movies = ApplyGenreFilter(movies, genreId);
+            movies = ApplySortOrder(movies, sortOrder);
 
-
+            return await movies.ToListAsync();
+        }
         public IActionResult Create()
         {
             ViewData["Genders"] = new SelectList(_Context.Genders, "Id", "Name");
@@ -100,18 +106,40 @@ namespace MiFrikimundo.Controllers
             }
             return View(movie);
         }
-
         public async Task<IActionResult> Edit(int id)
         {
             ViewData["Genders"] = new SelectList(_Context.Genders, "Id", "Name");
             var movie = await _Context.Movies.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
             return View(movie);
         }
+
         [HttpPost]
         public async Task<IActionResult> Edit(int Id, [Bind("Id, Title, Director, Rating, Created, ImageFile, ImageUrl, GenderId")] Movie movie)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                // Recupera la película original de la base de datos
+                var existingMovie = await _Context.Movies.FirstOrDefaultAsync(x => x.Id == movie.Id);
+
+                if (existingMovie == null)
+                {
+                    return NotFound();
+                }
+
+                // Actualiza los campos editables
+                existingMovie.Title = movie.Title;
+                existingMovie.Director = movie.Director;
+                existingMovie.Rating = movie.Rating;
+                existingMovie.Created = movie.Created;
+                existingMovie.GenderId = movie.GenderId;
+
+                // Verifica si se subió una nueva imagen
                 if (movie.ImageFile != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(movie.ImageFile.FileName);
@@ -119,19 +147,28 @@ namespace MiFrikimundo.Controllers
                     Directory.CreateDirectory(uploadPath);
                     string filePath = Path.Combine(uploadPath, fileName);
 
+                    // Guarda la nueva imagen
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await movie.ImageFile.CopyToAsync(fileStream);
                     }
 
-                    movie.ImageUrl = "/images/" + fileName;
+                    // Actualiza la URL de la imagen
+                    existingMovie.ImageUrl = "/images/" + fileName;
                 }
-                _Context.Update(movie);
+
+                // Si no hay nueva imagen, conserva la URL de la imagen existente
+                _Context.Update(existingMovie);
                 await _Context.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
+
+            // Si el modelo no es válido, vuelve a cargar los géneros para la vista
+            ViewData["Genders"] = new SelectList(_Context.Genders, "Id", "Name");
             return View(movie);
         }
+
 
         public async Task<IActionResult> Delete(int id)
         {

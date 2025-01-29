@@ -35,11 +35,37 @@
         <label for="Created">Fecha</label>
         <input type="date" class="form-control" asp-for="Created" />
     </div>
-
     <div class="form-group">
-        <label asp-for="ImageFile">Subir Imagen</label>
+        <label asp-for="ImageFile">Imagen actual</label>
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <div class="mb-2">
+                <img src="@Model.ImageUrl" alt="Imagen de la película" style="max-width: 150px; max-height: 150px; border-radius: 8px;" />
+            </div>
+        }
+        <label for="ImageFile">Cambiar Imagen</label>
         <input asp-for="ImageFile" type="file" class="form-control" />
     </div>
-
-    <button type="submit" class="btn btn-primary mt-2">Editar</button>
+    <div>
+        <button type="submit" class="btn btn-primary mt-4 me-2 custom-bg">Editar</button>
+        <button type="button" onclick="showConfirm()" class="btn btn-primary mt-4 me-2 custom-bg">Eliminar</button>
+    </div>
 </form>
+
+
+<div class="overlay" id="confirmOverlay">
+    <div class="confirm-box">
+        <h4>¿Estás seguro que decea eliminar @Model.Title?</h4>
+        <div class="d-flex justify-content-center mt-3">
+            <form asp-action="Delete" method="post" class="mb-0">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" class="btn btn-primary custom-bg" value="Eliminar" />
+            </form>
+            <button class="btn btn-primary custom-bg" style="margin-left: 5px;" onclick="hideConfirm()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+
+
+
