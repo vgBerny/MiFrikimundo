@@ -35,7 +35,6 @@
 
 <div class="row mb-2">
     <div class="col">
-        <!-- Contenedor con flexbox para alinear los botones y el formulario -->
         <div class="d-flex align-items-center">
             <div class="me-3">
                 <a asp-action="Index" asp-route-sortOrder="rating_desc" class="btn btn-outline-secondary">Rating ↓</a>
@@ -43,7 +42,6 @@
                 <a asp-action="Index" asp-route-sortOrder="date_desc" class="btn btn-outline-secondary">Fecha ↓</a>
                 <a asp-action="Index" asp-route-sortOrder="date_asc" class="btn btn-outline-secondary">Fecha ↑</a>
             </div>
-            <!-- Formulario de filtrado -->
             <form asp-action="Index" method="get" class="d-flex">
                 <select name="genreId" class="form-select me-2">
                     <option value="">Todos los géneros</option>
