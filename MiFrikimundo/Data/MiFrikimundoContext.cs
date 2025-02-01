@@ -20,6 +20,8 @@ namespace MiFrikimundo.Data
 
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Book> Books { get; set; }
+        public DbSet<Serie> Series { get; set; }
+        public DbSet<Anime> Animes { get; set; }
         public DbSet<Gender> Genders { get; set; }
     }
 }

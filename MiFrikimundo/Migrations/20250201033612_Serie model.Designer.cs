@@ -4,6 +4,7 @@ using MiFrikimundo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MiFrikimundo.Migrations
 {
     [DbContext(typeof(MiFrikimundoContext))]
-    partial class MiFrikimundoContextModelSnapshot : ModelSnapshot
+    [Migration("20250201033612_Serie model")]
+    partial class Seriemodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,46 +24,6 @@ namespace MiFrikimundo.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("MiFrikimundo.Models.Anime", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Author")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Chapters")
-                        .HasColumnType("int");
-
-                    b.Property<DateOnly?>("Created")
-                        .HasColumnType("date");
-
-                    b.Property<int?>("GenderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Seasons")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GenderId");
-
-                    b.ToTable("Animes");
-                });
 
             modelBuilder.Entity("MiFrikimundo.Models.Book", b =>
                 {
@@ -162,59 +125,10 @@ namespace MiFrikimundo.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("MiFrikimundo.Models.Serie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("Chapters")
-                        .HasColumnType("int");
-
-                    b.Property<DateOnly?>("Created")
-                        .HasColumnType("date");
-
-                    b.Property<string>("Director")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("GenderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Seasons")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GenderId");
-
-                    b.ToTable("Series");
-                });
-
-            modelBuilder.Entity("MiFrikimundo.Models.Anime", b =>
-                {
-                    b.HasOne("MiFrikimundo.Models.Gender", "Gender")
-                        .WithMany("Animes")
-                        .HasForeignKey("GenderId");
-
-                    b.Navigation("Gender");
-                });
-
             modelBuilder.Entity("MiFrikimundo.Models.Book", b =>
                 {
                     b.HasOne("MiFrikimundo.Models.Gender", "Gender")
-                        .WithMany("Books")
+                        .WithMany()
                         .HasForeignKey("GenderId");
 
                     b.Navigation("Gender");
@@ -229,24 +143,9 @@ namespace MiFrikimundo.Migrations
                     b.Navigation("Gender");
                 });
 
-            modelBuilder.Entity("MiFrikimundo.Models.Serie", b =>
-                {
-                    b.HasOne("MiFrikimundo.Models.Gender", "Gender")
-                        .WithMany("Series")
-                        .HasForeignKey("GenderId");
-
-                    b.Navigation("Gender");
-                });
-
             modelBuilder.Entity("MiFrikimundo.Models.Gender", b =>
                 {
-                    b.Navigation("Animes");
-
-                    b.Navigation("Books");
-
                     b.Navigation("Movies");
-
-                    b.Navigation("Series");
                 });
 #pragma warning restore 612, 618
         }

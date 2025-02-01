@@ -1,0 +1,54 @@
+﻿@model MiFrikimundo.Models.Anime
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h3>Agregar Anime</h3>
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="Title">Titulo</label>
+        <input type="text" class="form-control" asp-for="Title" required/>
+    </div>
+    <div class="form-group">
+        <label for="Author">Autor</label>
+        <input type="text" class="form-control" asp-for="Author"/>
+    </div>
+    <div class="form-group">
+        <label for="GenderId">Genero</label>
+        <select asp-for="GenderId" asp-items="ViewBag.Genders" class="form-control">
+            <option value="" disabled selected>Seleccione un genero</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Chapters">Capitulos</label>
+        <input type="number" class="form-control" asp-for="Chapters" />
+    </div>
+    <div class="form-group">
+        <label for="Seasons">Temporadas</label>
+        <input type="number" class="form-control" asp-for="Seasons" />
+    </div>
+
+    <div class="form-group">
+        <label for="Rating">Calificacion</label>
+        <select asp-for="Rating" name="Rating" class="form-control">
+            <option value="" disabled selected>Seleccione una calificación</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Created">Fecha</label>
+        <input type="date" class="form-control" asp-for="Created" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ImageFile">Subir Imagen</label>
+        <input asp-for="ImageFile" type="file" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary custom-bg mt-2">Agregar</button>
+</form>
+

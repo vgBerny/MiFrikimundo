@@ -1,0 +1,79 @@
+﻿@model MiFrikimundo.Models.Anime
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h3>Editar Anime</h3>
+
+<form asp-action="Edit" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="Title">Titulo</label>
+        <input type="text" class="form-control" asp-for="Title" required/>
+    </div>
+    <div class="form-group">
+        <label for="Author">Autor</label>
+        <input type="text" class="form-control" asp-for="Author"/>
+    </div>
+    <div class="form-group">
+        <label for="GenderId">Genero</label>
+        <select asp-for="GenderId" asp-items="ViewBag.Genders" class="form-control">
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Chapters">Capitulos</label>
+        <input type="number" class="form-control" asp-for="Chapters" />
+    </div>
+    <div class="form-group">
+        <label for="Seasons">Temporadas</label>
+        <input type="number" class="form-control" asp-for="Seasons" />
+    </div>
+
+    <div class="form-group">
+        <label for="Rating">Calificacion</label>
+        <select asp-for="Rating" name="Rating" class="form-control">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Created">Fecha</label>
+        <input type="date" class="form-control" asp-for="Created" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ImageFile">Imagen actual</label>
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <div class="mb-2">
+                <img src="@Model.ImageUrl" alt="Imagen de la película" style="max-width: 150px; max-height: 150px; border-radius: 8px;" />
+            </div>
+        }
+        <label for="ImageFile">Cambiar Imagen</label>
+        <input asp-for="ImageFile" type="file" class="form-control" />
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary mt-4 me-2 custom-bg">Editar</button>
+        <button type="button" onclick="showConfirm()" class="btn btn-primary mt-4 me-2 custom-bg">Eliminar</button>
+    </div>
+</form>
+
+
+<div class="overlay" id="confirmOverlay">
+    <div class="confirm-box">
+        <h4>¿Estás seguro que decea eliminar @Model.Title?</h4>
+        <div class="d-flex justify-content-center mt-3">
+            <form asp-action="Delete" method="post" class="mb-0">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" class="btn btn-primary custom-bg" value="Eliminar" />
+            </form>
+            <button class="btn btn-primary custom-bg" style="margin-left: 5px;" onclick="hideConfirm()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+
+
+

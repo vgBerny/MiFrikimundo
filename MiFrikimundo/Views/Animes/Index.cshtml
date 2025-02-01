@@ -1,4 +1,4 @@
-﻿@model List<MiFrikimundo.Models.Movie>
+﻿@model List<MiFrikimundo.Models.Anime>
 @{
     ViewData["Title"] = "Index";
 }
@@ -8,10 +8,10 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item ms-2">
-                        <h3>PELICULAS</h3>
+                        <h3>ANIMES</h3>
                     </li>
                     <li class="nav-item m-md-1 ms-md-4">
-                        <form asp-controller="Movies" asp-action="Index" method="get">
+                        <form asp-controller="Animes" asp-action="Index" method="get">
                             <input style="width: 80%; float:left; border-top-left-radius:20%; border-bottom-left-radius:20%; background:transparent" type="text" name="searchString" class="form-control" />
                             <button style="width: 20%; float: left; border: none; background: transparent; height: 40px" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                         </form>
@@ -19,7 +19,7 @@
                     <li class="nav-item ms-auto">
                         <form>
                             <div>
-                                <button type="button" class="btn btn-primary custom-bg" onclick="window.location.href='/Movies/Create'">AGREGAR PELICULA</button>
+                                <button type="button" class="btn btn-primary custom-bg" onclick="window.location.href='/Animes/Create'">AGREGAR ANIME</button>
                             </div>
                         </form>
                     </li>
@@ -30,7 +30,7 @@
 </header>
 
 <br />
-<h1>Lista de Peliculas</h1>
+<h1>Lista de Animes</h1>
 <br />
 
 <div class="row mb-2">
@@ -72,8 +72,10 @@
                                 <div class="col-md-6">
                                     <div class="info">
                                         <h2>@item.Title</h2>
-                                        <p class="custom-fontDirector">@item.Director</p>
-                                        <p>@item.Gender?.Name</p>
+                                        <p class="custom-fontDirector">@item.Author</p>
+                                    <p>@item.Gender?.Name</p>
+                                    <p>Capitulos: @item.Chapters</p>
+                                    <p>Temporadas: @item.Seasons</p>
                                         <p>@item.Created</p>
                                         <p>(@item.Rating/5)</p>
                                         <p class="text-end">
