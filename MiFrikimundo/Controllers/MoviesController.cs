@@ -30,7 +30,6 @@ namespace MiFrikimundo.Controllers
             // Obtener las películas filtradas y ordenadas
             var movies = await GetFilteredAndSortedMoviesAsync(searchString, genreId, sortOrder);
 
-            // Retornar la lista filtrada y ordenada a la vista
             return View(movies);
         }
         private async Task<List<Gender>> GetGenresAsync()
@@ -57,11 +56,13 @@ namespace MiFrikimundo.Controllers
         {
             return sortOrder switch
             {
+                "a_to_z" => movies.OrderBy(m => m.Title),
+                "z_to_a" => movies.OrderByDescending(m => m.Title),
                 "rating_desc" => movies.OrderByDescending(m => m.Rating),
                 "rating_asc" => movies.OrderBy(m => m.Rating),
                 "date_desc" => movies.OrderByDescending(m => m.Created),
                 "date_asc" => movies.OrderBy(m => m.Created),
-                _ => movies.OrderBy(m => m.Title),
+                _ => movies.OrderByDescending(m => m.Created),
             };
         }
         private async Task<List<Movie>> GetFilteredAndSortedMoviesAsync(string searchString, int? genreId, string sortOrder)
@@ -81,23 +82,30 @@ namespace MiFrikimundo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id, Title, Director, Rating, Created, ImageFile, ImageUre, GenderId")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Id, Title, Director, Rating, Created, ImageFile, GenderId")] Movie movie)
         {
             if (ModelState.IsValid)
             {
-                if (movie.ImageFile != null)
+                if (movie.ImageFile != null && movie.ImageFile.Length > 0)
                 {
+                    // Generar un nombre único para la imagen
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(movie.ImageFile.FileName);
                     string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "images");
                     Directory.CreateDirectory(uploadPath);
                     string filePath = Path.Combine(uploadPath, fileName);
 
+                    // Guardar la imagen en el servidor
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await movie.ImageFile.CopyToAsync(fileStream);
                     }
 
                     movie.ImageUrl = "/images/" + fileName;
+                }
+                else
+                {
+                    // Asignar imagen por defecto si no se sube ninguna
+                    movie.ImageUrl = "/images/generic.jpg";
                 }
 
                 _Context.Movies.Add(movie);
@@ -106,6 +114,7 @@ namespace MiFrikimundo.Controllers
             }
             return View(movie);
         }
+
         public async Task<IActionResult> Edit(int id)
         {
             ViewData["Genders"] = new SelectList(_Context.Genders, "Id", "Name");
@@ -132,14 +141,12 @@ namespace MiFrikimundo.Controllers
                     return NotFound();
                 }
 
-                // Actualiza los campos editables
                 existingMovie.Title = movie.Title;
                 existingMovie.Director = movie.Director;
                 existingMovie.Rating = movie.Rating;
                 existingMovie.Created = movie.Created;
                 existingMovie.GenderId = movie.GenderId;
 
-                // Verifica si se subió una nueva imagen
                 if (movie.ImageFile != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(movie.ImageFile.FileName);
@@ -147,24 +154,20 @@ namespace MiFrikimundo.Controllers
                     Directory.CreateDirectory(uploadPath);
                     string filePath = Path.Combine(uploadPath, fileName);
 
-                    // Guarda la nueva imagen
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await movie.ImageFile.CopyToAsync(fileStream);
                     }
 
-                    // Actualiza la URL de la imagen
                     existingMovie.ImageUrl = "/images/" + fileName;
                 }
 
-                // Si no hay nueva imagen, conserva la URL de la imagen existente
                 _Context.Update(existingMovie);
                 await _Context.SaveChangesAsync();
 
                 return RedirectToAction("Index");
             }
 
-            // Si el modelo no es válido, vuelve a cargar los géneros para la vista
             ViewData["Genders"] = new SelectList(_Context.Genders, "Id", "Name");
             return View(movie);
         }

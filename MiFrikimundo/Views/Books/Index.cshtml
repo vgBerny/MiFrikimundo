@@ -2,49 +2,108 @@
 @{
     ViewData["Title"] = "Index";
 }
-<h3>Libros</h3>
-
-<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-    <form asp-controller="Books" asp-action="Index" method="get">
-        <input style="width: 80%; float:left; border-top-left-radius:20%; border-bottom-left-radius:20%; background:transparent" type="text" name="searchString" class="form-control" />
-        <button style="width: 20%; float: left; border: none; background: transparent; height: 40px" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-    </form>
-</div>
-
-<div>
-    <form>
-        <div class="button-rigth">
-            <button type="button" class="btn btn-primary" onclick="window.location.href='/Books/Create'">Agregar</button>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item ms-2">
+                        <h3>LIBROS</h3>
+                    </li>
+                    <li class="nav-item m-md-1 ms-md-4">
+                        <form asp-controller="Books" asp-action="Index" method="get">
+                            <input style="width: 80%; float:left; border-top-left-radius:20%; border-bottom-left-radius:20%; background:transparent" type="text" name="searchString" class="form-control" />
+                            <button style="width: 20%; float: left; border: none; background: transparent; height: 40px" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </form>
+                    </li>
+                    <li class="nav-item ms-auto">
+                        <form>
+                            <div>
+                                <button type="button" class="btn btn-primary custom-bg" onclick="window.location.href='/Books/Create'">AGREGAR LIBRO</button>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </form>
+    </nav>
+</header>
+
+<br />
+<h1>Lista de Libros</h1>
+<br />
+
+<div class="row mb-2">
+    <div class="col">
+        <div class="d-flex align-items-center">
+            <div class="me-3">
+                <a asp-action="Index" asp-route-sortOrder="a_to_z" class="btn btn-outline-secondary">A to Z</a>
+                <a asp-action="Index" asp-route-sortOrder="z_to_a" class="btn btn-outline-secondary">Z to A</a>
+                <a asp-action="Index" asp-route-sortOrder="rating_desc" class="btn btn-outline-secondary">Rating ↓</a>
+                <a asp-action="Index" asp-route-sortOrder="rating_asc" class="btn btn-outline-secondary">Rating ↑</a>
+                <a asp-action="Index" asp-route-sortOrder="date_desc" class="btn btn-outline-secondary">Fecha ↓</a>
+                <a asp-action="Index" asp-route-sortOrder="date_asc" class="btn btn-outline-secondary">Fecha ↑</a>
+            </div>
+            <form asp-action="Index" method="get" class="d-flex">
+                <select name="genreId" class="form-select me-2">
+                    <option value="">Todos los géneros</option>
+                    @foreach (var genre in ViewBag.Genres as SelectList)
+                    {
+                        <option value="@genre.Value">@genre.Text</option>
+                    }
+                </select>
+                <button type="submit" class="btn btn-primary custom-bg">Filtrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            @foreach (var item in Model)
+            {
+                <div class="container">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img src="@item.ImageUrl" class="card-img-top" alt="Imagen" />
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info">
+                                    <h2>@item.Title</h2>
+                                    <p class="custom-fontDirector">@item.Author</p>
+                                    <p>@item.Gender?.Name</p>
+                                    <p>@item.Saga</p>
+                                    <p>@item.Created</p>
+                                    <p>(@item.Rating/5)</p>
+                                    <p class="text-end">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-editar">Editar</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-6">
+            <h2> | Más para explorar</h2>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-3">
+                    <li class="nav-item ms-4">
+                        <a class="nav-link font-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item ms-4">
+                        <a class="nav-link font-link" asp-area="" asp-controller="Movies" asp-action="Index">Peliculas</a>
+                    </li>
+                    <li class="nav-item ms-4">
+                        <a class="nav-link font-link" asp-area="" asp-controller="Books" asp-action="Index">Libros</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Título</th>
-            <th>Autor</th>
-            <th>Saga</th>
-            <th>Genero</th>
-            <th>Calificacion</th>
-            <th>Fecha</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var book in Model)
-        {
-            <tr>
-                <td>@book.Title</td>
-                <td>@book.Author</td>
-                <td>@book.Saga</td>
-                <td>@book.Gender?.Name</td>
-                <td>@book.Rating</td>
-                @* <td>@book.Created</td> *@
-                <td>
-                    <a asp-action="Edit" asp-route-id="@book.Id">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@book.Id">Eliminar</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
