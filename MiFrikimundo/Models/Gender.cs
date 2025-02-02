@@ -8,6 +8,7 @@
         public List<Book>? Books { get; set; }
         public List<Serie>? Series { get; set; }
         public List<Anime>? Animes { get; set; }
+        public List<ComicManga>? ComicsMangas { get; set; }
 
     }
 }

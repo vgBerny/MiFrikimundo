@@ -1,4 +1,4 @@
-﻿@model List<MiFrikimundo.Models.Serie>
+﻿@model List<MiFrikimundo.Models.ComicManga>
 @{
     ViewData["Title"] = "Index";
 }
@@ -8,7 +8,7 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item ms-2">
-                        <h3>SERIES</h3>
+                        <h3>COMICS MANGAS</h3>
                     </li>
                     <li class="nav-item m-md-1 ms-md-4">
                         <form asp-controller="Series" asp-action="Index" method="get">
@@ -19,7 +19,7 @@
                     <li class="nav-item ms-auto">
                         <form>
                             <div>
-                                <button type="button" class="btn btn-primary custom-bg" onclick="window.location.href='/Series/Create'">AGREGAR SERIE</button>
+                                <button type="button" class="btn btn-primary custom-bg" onclick="window.location.href='/ComicsMangas/Create'">AGREGAR COMIC MANGA</button>
                             </div>
                         </form>
                     </li>
@@ -30,7 +30,7 @@
 </header>
 
 <br />
-<h1>Lista de Series</h1>
+<h1>Lista de Comics Mangas</h1>
 <br />
 
 <div class="row mb-2">
@@ -72,10 +72,10 @@
                                 <div class="col-md-6">
                                     <div class="info">
                                         <h2>@item.Title</h2>
-                                        <p class="custom-fontDirector">@item.Director</p>
+                                        <p class="custom-fontDirector">@item.Author</p>
                                     <p>@item.Gender?.Name</p>
                                     <p>Capitulos: @item.Chapters</p>
-                                    <p>Temporadas: @item.Seasons</p>
+                                    <p>Tomos: @item.Volumes</p>
                                         <p>@item.Created</p> 
                                         <p>(@item.Rating/5)</p>
                                         <p class="text-end">

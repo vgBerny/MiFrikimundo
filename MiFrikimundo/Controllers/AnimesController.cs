@@ -82,7 +82,7 @@ namespace MiFrikimundo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id, Title, Authot, Chapters, Seasons, Rating, Created, ImageFile, GenderId")] Anime anime)
+        public async Task<IActionResult> Create([Bind("Id, Title, Author, Chapters, Seasons, Rating, Created, ImageFile, GenderId")] Anime anime)
         {
             if (ModelState.IsValid)
             {
