@@ -8,7 +8,7 @@
 
 <form asp-action="Create" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="Title">Titulo</label>
+        <label for="Title">Título</label>
         <input type="text" class="form-control" asp-for="Title" required/>
     </div>
     <div class="form-group">
@@ -16,13 +16,13 @@
         <input type="text" class="form-control" asp-for="Author"/>
     </div>
     <div class="form-group">
-        <label for="GenderId">Genero</label>
+        <label for="GenderId">Género</label>
         <select asp-for="GenderId" asp-items="ViewBag.Genders" class="form-control">
-            <option value="" disabled selected>Seleccione un genero</option>
+            <option value="" disabled selected>Seleccione un género</option>
         </select>
     </div>
     <div class="form-group">
-        <label for="Chapters">Capitulos</label>
+        <label for="Chapters">Capítulos</label>
         <input type="number" class="form-control" asp-for="Chapters" />
     </div>
     <div class="form-group">
@@ -31,7 +31,7 @@
     </div>
 
     <div class="form-group">
-        <label for="Rating">Calificacion</label>
+        <label for="Rating">Calificación</label>
         <select asp-for="Rating" name="Rating" class="form-control">
             <option value="" disabled selected>Seleccione una calificación</option>
             <option value="1">1</option>
@@ -49,6 +49,6 @@
         <label asp-for="ImageFile">Subir Imagen</label>
         <input asp-for="ImageFile" type="file" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary custom-bg mt-2">Agregar</button>
+    <button type="submit" class="btn btn-primary custom-bg mt-4">Agregar</button>
 </form>
 

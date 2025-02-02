@@ -3,6 +3,47 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to MiFrikimundo</h1>
+    <p style="font-size: 18px">Elija la biblioteca de su preferencia. Para más información 
+        <a href="#" onclick="showConfirmInfoBox()"> Haz clic aquí.</a>
+    </p>
+</div>
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <a class="nav-link font-link" asp-area="" asp-controller="Movies" asp-action="Index"><h2 class="text-center">Películas</h2></a>
+            </div>
+            <div class="card">
+                <a class="nav-link font-link" asp-area="" asp-controller="Books" asp-action="Index"><h2 class="text-center">Libros</h2></a>
+            </div>
+            <div class="card">
+                <a class="nav-link font-link" asp-area="" asp-controller="VideoGames" asp-action="Index"><h2 class="text-center">VideoJuegos</h2></a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <a class="nav-link font-link" asp-area="" asp-controller="Series" asp-action="Index"><h2 class="text-center">Series</h2></a>
+            </div>
+            <div class="card">
+                <a class="nav-link font-link" asp-area="" asp-controller="Animes" asp-action="Index"><h2 class="text-center">Anime</h2></a>
+            </div>
+            <div class="card">
+                <a class="nav-link font-link" asp-area="" asp-controller="ComicsMangas" asp-action="Index"><h2 class="text-center">Cómics Manga</h2></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="overlayInfoBox" id="confirmOverlayInfoBox">
+    <div class="confirmInfoBox">
+        <a style="font-size: 20px">MiFrikimundo es una biblioteca para ordenar y no olvidar todos los medios de entretenimientos, 
+            que vez, lees o juegas. Si quieres iniciar tu propia biblioteca, 
+            por favor presione el botón de registrarse.</a>
+         <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-primary custom-bg" style="margin-left: 30px; margin-top: 10px" onclick="hideConfirmInfoBox()"> Registrarse  </button>
+            <button class="btn btn-primary custom-bg" style="margin-left: 30px; margin-top: 10px" onclick="hideConfirmInfoBox()">Cancelar </button>
+         </div>
+     </div>
 </div>

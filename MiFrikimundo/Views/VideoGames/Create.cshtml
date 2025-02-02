@@ -1,10 +1,10 @@
-﻿@model MiFrikimundo.Models.Serie
+﻿@model MiFrikimundo.Models.VideoGame
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h3>Agregar Series</h3>
+<h3>Agregar Video Juego</h3>
 
 <form asp-action="Create" enctype="multipart/form-data">
     <div class="form-group">
@@ -12,22 +12,24 @@
         <input type="text" class="form-control" asp-for="Title" required/>
     </div>
     <div class="form-group">
-        <label for="Director">Director</label>
-        <input type="text" class="form-control" asp-for="Director"/>
+        <label for="Developers">Desarrollador</label>
+        <input type="text" class="form-control" asp-for="Developers"/>
+    </div>
+    <div class="form-group">
+        <label for="Platform">Plataforma</label>
+        <select asp-for="Platform" name="Platform" class="form-control">
+            <option value="" disabled selected>Seleccione una plataforma</option>
+            <option value="PC">PC</option>
+            <option value="PlayStation">PlayStation</option>
+            <option value="Xbox">Xbox</option>
+            <option value="Nintendo">Nintendo</option>
+        </select>
     </div>
     <div class="form-group">
         <label for="GenderId">Género</label>
         <select asp-for="GenderId" asp-items="ViewBag.Genders" class="form-control">
             <option value="" disabled selected>Seleccione un género</option>
         </select>
-    </div>
-    <div class="form-group">
-        <label for="Chapters">Capítulos</label>
-        <input type="number" class="form-control" asp-for="Chapters" />
-    </div>
-    <div class="form-group">
-        <label for="Seasons">Temporadas</label>
-        <input type="number" class="form-control" asp-for="Seasons" />
     </div>
 
     <div class="form-group">

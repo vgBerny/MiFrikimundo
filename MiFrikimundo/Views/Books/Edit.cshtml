@@ -4,11 +4,11 @@
     ViewData["Title"] = "Edit";
 }
 
-<h3>Editar Pelicula</h3>
+<h3>Editar Película</h3>
 
 <form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="Title">Titulo</label>
+        <label for="Title">Título</label>
         <input type="text" class="form-control" asp-for="Title" required />
     </div>
     <div class="form-group">
@@ -16,13 +16,13 @@
         <input type="text" class="form-control" asp-for="Author" />
     </div>
     <div class="form-group">
-        <label for="GenderId">Genero</label>
+        <label for="GenderId">Género</label>
         <select asp-for="GenderId" asp-items="ViewBag.Genders" class="form-control">
         </select>
     </div>
 
     <div class="form-group">
-        <label for="Rating">Calificacion</label>
+        <label for="Rating">Calificación</label>
         <select asp-for="Rating" name="Rating" class="form-control">
             <option value="1">1</option>
             <option value="2">2</option>
@@ -55,7 +55,7 @@
 
 <div class="overlay" id="confirmOverlay">
     <div class="confirm-box">
-        <h4>¿Estás seguro que decea eliminar @Model.Title?</h4>
+        <h4>¿Está seguro que decea eliminar @Model.Title?</h4>
         <div class="d-flex justify-content-center mt-3">
             <form asp-action="Delete" method="post" class="mb-0">
                 <input type="hidden" asp-for="Id" />

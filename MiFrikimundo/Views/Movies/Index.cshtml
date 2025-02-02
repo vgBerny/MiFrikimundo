@@ -8,18 +8,18 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item ms-2">
-                        <h3>PELICULAS</h3>
+                        <a class="nav-link font-link" asp-area="" asp-controller="Movies" asp-action="Index"><h3>PELÍCULAS</h3></a>
                     </li>
                     <li class="nav-item m-md-1 ms-md-4">
                         <form asp-controller="Movies" asp-action="Index" method="get">
-                            <input style="width: 80%; float:left; border-top-left-radius:20%; border-bottom-left-radius:20%; background:transparent" type="text" name="searchString" class="form-control" />
-                            <button style="width: 20%; float: left; border: none; background: transparent; height: 40px" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            <input type="text" name="searchString" class="form-control search" />
+                            <button class="searchBox" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                         </form>
                     </li>
                     <li class="nav-item ms-auto">
                         <form>
                             <div>
-                                <button type="button" class="btn btn-primary custom-bg" onclick="window.location.href='/Movies/Create'">AGREGAR PELICULA</button>
+                                <button type="button" class="btn btn-primary custom-bgAgregar" onclick="window.location.href='/Movies/Create'">Agregar Película</button>
                             </div>
                         </form>
                     </li>
@@ -30,7 +30,7 @@
 </header>
 
 <br />
-<h1>Lista de Peliculas</h1>
+<h1>Lista de Películas</h1>
 <br />
 
 <div class="row mb-2">
@@ -73,9 +73,9 @@
                                     <div class="info">
                                         <h2>@item.Title</h2>
                                         <p class="custom-fontDirector">@item.Director</p>
-                                        <p>@item.Gender?.Name</p>
-                                        <p>@item.Created</p>
-                                        <p>(@item.Rating/5)</p>
+                                        <p class="custom-font">@item.Gender?.Name</p>
+                                    <p class="custom-font">@item.Created</p>
+                                    <p class="custom-font">(@item.Rating/5)</p>
                                         <p class="text-end">
                                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-editar">Editar</a>
                                         </p>
@@ -91,7 +91,7 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-3">
                     <li class="nav-item ms-4">
-                        <a class="nav-link font-link" asp-area="" asp-controller="Movies" asp-action="Index">Peliculas</a>
+                        <a class="nav-link font-link" asp-area="" asp-controller="Movies" asp-action="Index">Películas</a>
                     </li>
                     <li class="nav-item ms-4">
                         <a class="nav-link font-link" asp-area="" asp-controller="Books" asp-action="Index">Libros</a>
@@ -100,10 +100,13 @@
                         <a class="nav-link font-link" asp-area="" asp-controller="Series" asp-action="Index">Series</a>
                     </li>
                     <li class="nav-item ms-4">
+                        <a class="nav-link font-link" asp-area="" asp-controller="VideoGames" asp-action="Index">Video Juegos</a>
+                    </li>
+                    <li class="nav-item ms-4">
                         <a class="nav-link font-link" asp-area="" asp-controller="Animes" asp-action="Index">Animes</a>
                     </li>
                     <li class="nav-item ms-4">
-                        <a class="nav-link font-link" asp-area="" asp-controller="ComicsMangas" asp-action="Index">Comics Mangas</a>
+                        <a class="nav-link font-link" asp-area="" asp-controller="ComicsMangas" asp-action="Index">Comics Manga</a>
                     </li>
                 </ul>
             </div>

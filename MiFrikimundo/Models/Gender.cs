@@ -9,6 +9,7 @@
         public List<Serie>? Series { get; set; }
         public List<Anime>? Animes { get; set; }
         public List<ComicManga>? ComicsMangas { get; set; }
+        public List<VideoGame>? VideoGames { get; set; }
 
     }
 }

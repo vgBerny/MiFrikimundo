@@ -16,4 +16,11 @@ function handleConfirm() {
 
 }
 
+function showConfirmInfoBox() {
+    document.getElementById('confirmOverlayInfoBox').style.display = 'flex';
 
+}
+
+function hideConfirmInfoBox() {
+    document.getElementById('confirmOverlayInfoBox').style.display = 'none';
+}

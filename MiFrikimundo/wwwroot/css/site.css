@@ -33,9 +33,21 @@ body {
 .custom-bg {
     background-color: #3b3b37;
     border-color: #6c757d;
+    width: 120px
 }
 
     .custom-bg:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+
+.custom-bgAgregar {
+    background-color: #3b3b37;
+    border-color: #6c757d;
+    font-size: 18px;
+}
+
+    .custom-bgAgregar:hover {
         background-color: #5a6268;
         border-color: #545b62;
     }
@@ -47,8 +59,8 @@ body {
 }
 
 .custom-font {
-    font-size: 1.25rem;
-    font-weight: bold
+    font-size: 1.1rem;
+    margin-bottom: 7px;
 }
 .custom-fontDirector {
     font-size: 1rem;
@@ -111,5 +123,40 @@ body {
         margin-bottom: 15px;
     }
 
+.overlayInfoBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: none;
+}
 
+.confirmInfoBox {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 600px;
+}
 
+.search {
+    width: 80%;
+    float:left; 
+    border-top-left-radius:20%; 
+    border-bottom-left-radius:20%; 
+    background:transparent;
+}
+.searchBox {
+    width: 20%; 
+    float: left; 
+    border: none; 
+    background: transparent; 
+    height: 40px;
+}
