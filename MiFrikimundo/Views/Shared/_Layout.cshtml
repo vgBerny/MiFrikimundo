@@ -20,6 +20,12 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
+            <div>
+                <button type="button" onclick="showConfirmWorkInProgress()" class="btn me-4 custom-account">Registrarse</button>
+            </div>
+            <div>
+                <button type="button" onclick="showConfirmWorkInProgress()" class="btn me-4 custom-account">Iniciar sesión</button>
+            </div>
         </nav>
     </header>
     <div class="container">
@@ -33,4 +39,14 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+<div class="overlayWorkInProgress" id="confirmOverlayWorkInProgress">
+    <div class="confirmWorkInProgress">
+        <a style="font-size: 20px"> ⚙️ Work in progress.</a>
+        <div class="d-flex justify-content-center mt-3">
+            <button class="btn text-white custom-bg" style="margin-top: 10px" onclick="hideConfirmWorkInProgress()">Aceptar </button>
+        </div>
+    </div>
+</div>
 </html>
+
+

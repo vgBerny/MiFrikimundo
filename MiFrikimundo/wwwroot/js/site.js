@@ -24,3 +24,12 @@ function showConfirmInfoBox() {
 function hideConfirmInfoBox() {
     document.getElementById('confirmOverlayInfoBox').style.display = 'none';
 }
+
+function showConfirmWorkInProgress() {
+    document.getElementById('confirmOverlayWorkInProgress').style.display = 'flex';
+
+}
+
+function hideConfirmWorkInProgress() {
+    document.getElementById('confirmOverlayWorkInProgress').style.display = 'none';
+}
