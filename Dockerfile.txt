@@ -1,10 +1,9 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
-COPY ["src/MiFrikimundo.csproj", "./"]
-RUN dotnet restore
-RUN dotnet publish -c Release -o ./publish
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
+COPY . .
+RUN dotnet publish -c Release -o /app
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
-COPY --from=build /app/publish .
-ENTRYPOINT ["dotnet", "MiFrikimundo.dll"]
+COPY --from=build /app .
+ENTRYPOINT ["dotnet", "MiFrikimundo.dll"]dll"]
